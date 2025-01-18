@@ -1,21 +1,10 @@
+import yfinance as yf
 import streamlit as st
-import pandas as pd
-import requests
 
-# Title of the App
-st.title("Stock and Crypto Monitor")
-
-# Simple Message
-st.write("Welcome to your first Streamlit app! 🎉")
-
-# Example DataFrame
-example_data = {
-    "Asset": ["AAPL", "TSLA", "BTC", "ETH"],
-    "Price": [150, 750, 30000, 2000],
-}
-df = pd.DataFrame(example_data)
-
-# Display the Table
-st.write("Here’s a sample table:")
-st.table(df)
-
+# Fetch Stock Data
+st.header("📈 Stock Data")
+stock_ticker = st.text_input("Enter Stock Ticker (e.g., AAPL, TSLA):", "AAPL")
+if stock_ticker:
+    stock_data = yf.Ticker(stock_ticker)
+    stock_df = stock_data.history(period="1mo")  # Fetch last 1 month of data
+    st.line_chart(stock_df["Close"])  # Plot the closing prices
